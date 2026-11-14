@@ -3,146 +3,135 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>recol.tech — odzyskujemy pacjentów, którzy się nie umówili</title>
+<title>recol.tech</title>
 <meta name="description" content="Piszemy SMS-y w imieniu gabinetu do osób, które pytały o wizytę i się nie umówiły. Recepcja dzwoni tylko do chętnych. Płacicie 50 zł netto za pacjenta, który przyszedł.">
-<meta name="theme-color" content="#0A0A0E">
-<meta property="og:title" content="recol.tech — odzyskujemy pacjentów, którzy się nie umówili">
-<meta property="og:description" content="Pacjent pytał o wizytę i zniknął. Piszemy do niego w imieniu gabinetu. Płacicie dopiero wtedy, gdy przyjdzie.">
+<meta name="theme-color" content="#09090C">
+<meta property="og:title" content="recol.tech">
+<meta property="og:description" content="Pacjent pytał o wizytę i zniknął. Piszemy do niego w imieniu gabinetu. Płacicie 50 zł netto za pacjenta, który przyszedł.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230A0A0E'/><text x='5' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='700' fill='%23FFFFFF'>r</text><circle cx='21' cy='21' r='3.4' fill='%23A78BFA'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2309090C'/><text x='5' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='700' fill='%23FFFFFF'>r</text><circle cx='21' cy='21' r='3.4' fill='%23A78BFA'/></svg>">
 <style>
   :root{
-    --tlo:#0A0A0E; --karta:#14131C; --karta2:#191824;
-    --linia:rgba(255,255,255,.09); --linia2:rgba(255,255,255,.18);
-    --tekst:#F4F4F7; --szary:#A3A2B0; --ciemny-szary:#6F6E7C;
-    --fiolet:#8B5CF6; --fiolet-jasny:#A78BFA; --fiolet-tlo:rgba(139,92,246,.12);
-    --promien:12px;
+    --tlo:#09090C; --karta:#121118; --karta2:#18171F; --karta3:#1E1D26;
+    --linia:rgba(255,255,255,.08); --linia2:rgba(255,255,255,.16);
+    --tekst:#F5F5F7; --szary:#B9B8C6; --ciemny-szary:#8E8D9B;
+    --fiolet:#8B5CF6; --fiolet-jasny:#A78BFA; --lila:#C4B5FD; --fiolet-tlo:rgba(139,92,246,.13);
+    --promien:14px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
   body{
     margin:0; background:var(--tlo); color:var(--tekst);
     font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+    font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
   }
-  body::before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
-    background:
-      radial-gradient(700px 420px at 82% -6%, rgba(139,92,246,.20), transparent 68%),
-      radial-gradient(560px 380px at 0% 18%, rgba(139,92,246,.10), transparent 70%);
-  }
-  header,main,footer{position:relative; z-index:1}
-  .srodek{width:100%; max-width:1040px; margin:0 auto; padding:0 20px}
+  .srodek{width:100%; max-width:1180px; margin:0 auto; padding:0 20px}
   a{color:inherit}
   h1,h2,h3{margin:0; letter-spacing:-.02em; line-height:1.15}
-  h1{font-size:clamp(2.1rem,5vw,3.4rem); font-weight:700}
-  h2{font-size:clamp(1.6rem,3vw,2.2rem); font-weight:700}
-  h3{font-size:1.1rem; font-weight:600}
+  h2{font-size:clamp(1.7rem,3.2vw,2.4rem); font-weight:700}
+  h3{font-size:1.4rem; font-weight:650; letter-spacing:-.015em}
   p{margin:0}
-  section{padding:clamp(48px,7vw,88px) 0}
-  .naglowek{max-width:36em}
-  .naglowek p{margin-top:14px; color:var(--szary); font-size:1.05rem}
-  .kreska{width:42px; height:3px; background:var(--fiolet); border-radius:2px; margin-bottom:20px}
+
+  /* przyciski w kształcie pigułki */
+  .guzik{display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:13px 24px;
+    border-radius:999px; font-weight:600; font-size:1.05rem; text-decoration:none; border:1px solid transparent;
+    transition:background .2s, border-color .2s, box-shadow .2s; white-space:nowrap}
+  .guzik svg{width:17px; height:17px; flex:0 0 auto}
+  .guzik.bialy{background:#F5F3FF; color:#14121C; box-shadow:0 0 0 1px rgba(255,255,255,.2), 0 10px 40px -10px rgba(196,181,253,.7)}
+  .guzik.bialy:hover{background:#fff}
+  .guzik.fiolet{background:rgba(139,92,246,.22); color:#EDE7FF; border-color:rgba(167,139,250,.45)}
+  .guzik.fiolet:hover{background:rgba(139,92,246,.32)}
+  .guzik.maly{padding:9px 17px; font-size:.98rem}
 
   /* górny pasek */
-  .pasek{position:sticky; top:0; z-index:40; background:rgba(10,10,14,.88); backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--linia)}
-  .pasek .srodek{display:flex; align-items:center; justify-content:space-between; height:64px; gap:20px}
-  .pasek img{height:24px; width:auto; display:block}
-  .menu{display:flex; gap:28px; font-size:.97rem}
-  .menu a{color:var(--szary); text-decoration:none}
-  .menu a:hover{color:var(--tekst)}
-  @media(max-width:820px){.menu{display:none}}
+  .pasek{position:sticky; top:0; z-index:50; background:rgba(9,9,12,.72); backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px)}
+  .pasek .srodek{display:flex; align-items:center; justify-content:space-between; height:68px; gap:18px}
+  .pasek .logo img{height:22px; width:auto; display:block}
+  .menu{display:flex; gap:4px; padding:5px; border:1px solid var(--linia); border-radius:999px;
+    background:rgba(255,255,255,.02)}
+  .menu a{color:var(--szary); text-decoration:none; font-size:1rem; padding:6px 14px; border-radius:999px}
+  .menu a:hover{color:var(--tekst); background:rgba(255,255,255,.05)}
+  .pasek .prawo{display:flex; gap:8px}
+  @media(max-width:880px){.menu{display:none}}
+  @media(max-width:520px){.pasek .prawo .fiolet{display:none}}
 
-  .guzik{display:inline-flex; align-items:center; justify-content:center; padding:13px 22px;
-    border-radius:10px; font-weight:600; font-size:.97rem; text-decoration:none; border:1px solid transparent;
-    transition:background .2s, border-color .2s}
-  .guzik.glowny{background:var(--fiolet); color:#fff; box-shadow:0 12px 30px -14px rgba(139,92,246,.9)}
-  .guzik.glowny:hover{background:#9a6dff}
-  .guzik.zwykly{border-color:var(--linia2); color:var(--tekst); background:rgba(255,255,255,.03)}
-  .guzik.zwykly:hover{background:rgba(255,255,255,.07)}
-  .guzik.maly{padding:9px 16px; font-size:.92rem}
-  .przyciski{display:flex; gap:12px; margin-top:30px; flex-wrap:wrap}
-
-  /* początek */
-  .poczatek{padding:clamp(52px,8vw,100px) 0 clamp(36px,5vw,60px)}
-  .poczatek h1 span{color:var(--fiolet-jasny)}
-  .poczatek .wstep{margin-top:22px; font-size:1.15rem; color:var(--szary); max-width:32em}
+  /* początek strony */
+  .poczatek{position:relative; padding:clamp(80px,12vw,150px) 0 clamp(80px,11vw,140px); overflow:hidden}
+  .poczatek::before{content:""; position:absolute; left:50%; top:0; width:min(1100px,160vw); height:100%;
+    transform:translateX(-50%); pointer-events:none;
+    background:radial-gradient(closest-side, rgba(139,92,246,.20), transparent)}
+  .poczatek .tresc{position:relative; z-index:2; text-align:center; display:flex; flex-direction:column; align-items:center}
+  h1.tytul{margin-top:0; display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+    gap:.1em .3em; font-size:clamp(3rem,9vw,6.4rem); font-weight:700; letter-spacing:-.045em; line-height:1;
+    align-items:baseline}
+  h1.tytul > span{font-size:.8em}
+  h1.tytul img{height:1.14em; width:auto; display:block; transform:translateY(.27em);
+    filter:drop-shadow(0 0 42px rgba(167,139,250,.35))}
+  .poczatek .wstep{margin-top:30px; max-width:34em; font-size:clamp(1.12rem,1.9vw,1.32rem); color:var(--szary); line-height:1.65}
   .poczatek .wstep b{color:var(--tekst); font-weight:600}
-  .fakty{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:44px}
-  @media(max-width:760px){.fakty{grid-template-columns:1fr}}
-  .fakt{background:var(--karta); border:1px solid var(--linia); border-radius:var(--promien); padding:18px 22px}
-  .fakt b{display:block; font-size:1.4rem; font-weight:700; letter-spacing:-.02em}
-  .fakt span{color:var(--szary); font-size:.95rem}
+  .przyciski{display:flex; gap:12px; margin-top:34px; flex-wrap:wrap; justify-content:center}
 
-  /* jak działa */
-  .jak{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; margin-top:36px; align-items:start}
-  @media(max-width:860px){.jak{grid-template-columns:1fr}}
-  .kroki{list-style:none; margin:0; padding:0; display:grid; gap:14px}
-  .krok{display:flex; gap:16px; background:var(--karta); border:1px solid var(--linia);
-    border-radius:var(--promien); padding:20px 22px}
-  .krok .nr{flex:0 0 34px; height:34px; border-radius:50%; display:grid; place-items:center;
-    background:var(--fiolet-tlo); border:1px solid rgba(139,92,246,.4); color:var(--fiolet-jasny); font-weight:700}
-  .krok p{color:var(--szary); margin-top:4px; font-size:1rem}
-  .rozmowa{background:var(--karta); border:1px solid var(--linia); border-radius:var(--promien); padding:20px}
-  .rozmowa .tytul{color:var(--ciemny-szary); font-size:.88rem; margin-bottom:12px}
-  .dymek{padding:12px 16px; border-radius:14px; font-size:.97rem; max-width:88%; margin-bottom:10px}
-  .dymek.gabinet{background:var(--fiolet-tlo); border:1px solid rgba(139,92,246,.3); color:#EDE7FF}
-  .dymek.pacjent{background:var(--karta2); border:1px solid var(--linia); margin-left:auto}
-  .dymek small{display:block; font-size:.78rem; color:var(--szary); margin-bottom:3px}
-  .znacznik{display:inline-block; margin-top:6px; padding:7px 14px; border-radius:999px; font-size:.88rem;
-    font-weight:600; background:var(--fiolet-tlo); border:1px solid rgba(139,92,246,.35); color:var(--fiolet-jasny)}
 
-  /* dlaczego działa */
-  .badania{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:36px}
+  /* sekcje */
+  section.blok{padding:clamp(64px,9vw,110px) 0; border-top:1px solid var(--linia)}
+  .glowa{text-align:center; max-width:46em; margin:0 auto}
+  .glowa .etykieta{display:inline-block; color:var(--fiolet-jasny); font-weight:600; font-size:1.02rem; margin-bottom:12px}
+  .glowa p{margin-top:16px; color:var(--szary); font-size:1.2rem}
+  .karta{background:var(--karta); border:1px solid var(--linia); border-radius:var(--promien); padding:24px}
+
+  .kroki{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:44px; list-style:none; padding:0}
+  @media(max-width:860px){.kroki{grid-template-columns:1fr}}
+  .kroki .nr{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; margin-bottom:16px;
+    background:var(--fiolet-tlo); border:1px solid rgba(139,92,246,.45); color:var(--lila); font-weight:700}
+  .kroki p{color:var(--szary); margin-top:10px; font-size:1.15rem}
+
+  .badania{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:44px}
   @media(max-width:860px){.badania{grid-template-columns:1fr}}
-  .badanie{background:var(--karta); border:1px solid var(--linia); border-radius:var(--promien); padding:24px;
-    display:flex; flex-direction:column}
-  .badanie .liczba{font-size:2rem; font-weight:700; letter-spacing:-.03em; color:var(--fiolet-jasny); line-height:1.1}
-  .badanie p{color:var(--szary); margin-top:12px; font-size:1rem; flex:1}
+  .badanie{display:flex; flex-direction:column}
+  .badanie .liczba{font-size:2.3rem; font-weight:700; letter-spacing:-.03em; line-height:1.1;
+    background:linear-gradient(180deg,#fff,var(--lila)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .badanie p{color:var(--szary); margin-top:12px; font-size:1.15rem; flex:1}
   .badanie p b{color:var(--tekst); font-weight:600}
-  .badanie .zrodlo{margin-top:16px; padding-top:14px; border-top:1px solid var(--linia);
-    font-size:.86rem; color:var(--ciemny-szary)}
+  .badanie .zrodlo{margin-top:16px; padding-top:14px; border-top:1px solid var(--linia); font-size:.95rem; color:var(--ciemny-szary)}
   .badanie .zrodlo a{color:var(--szary)}
-  .wniosek{margin-top:22px; color:var(--szary); max-width:44em}
+  .wniosek{margin:28px auto 0; text-align:center; color:var(--szary); max-width:40em; font-size:1.15rem}
   .wniosek b{color:var(--tekst); font-weight:600}
 
-  /* cena */
-  .cena{display:grid; grid-template-columns:.9fr 1.1fr; gap:18px; margin-top:36px; align-items:stretch}
+  .cena{display:grid; grid-template-columns:.9fr 1.1fr; gap:16px; margin-top:44px}
   @media(max-width:820px){.cena{grid-template-columns:1fr}}
-  .karta{background:var(--karta); border:1px solid var(--linia); border-radius:var(--promien); padding:26px}
-  .karta.mocna{border-color:rgba(139,92,246,.4);
-    background:linear-gradient(180deg,rgba(139,92,246,.10),transparent 65%),var(--karta)}
-  .kwota{font-size:clamp(2.6rem,6vw,3.4rem); font-weight:700; letter-spacing:-.03em; line-height:1}
-  .kwota small{font-size:1rem; font-weight:500; color:var(--szary); letter-spacing:0}
-  .karta.mocna > p{color:var(--szary); margin-top:10px}
-  .przyklad{margin-top:20px; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.04);
-    border:1px solid var(--linia); font-size:.97rem; color:var(--szary)}
+  .karta.mocna{border-color:rgba(167,139,250,.4);
+    background:radial-gradient(500px 220px at 30% 0,rgba(139,92,246,.22),transparent 70%),var(--karta)}
+  .kwota{font-size:clamp(2.8rem,6vw,3.6rem); font-weight:700; letter-spacing:-.04em; line-height:1}
+  .kwota small{font-size:1.15rem; font-weight:500; color:var(--szary); letter-spacing:0}
+  .karta.mocna > p{color:var(--szary); margin-top:12px; font-size:1.15rem}
+  .przyklad{margin-top:20px; padding:14px 16px; border-radius:11px; background:rgba(255,255,255,.04);
+    border:1px solid var(--linia); font-size:1.1rem; color:var(--szary)}
   .przyklad b{color:var(--tekst)}
   .lista{list-style:none; margin:0; padding:0}
-  .lista li{display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--linia); color:var(--szary)}
+  .lista li{display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--linia); color:var(--szary); font-size:1.15rem}
   .lista li:last-child{border-bottom:none}
   .lista li::before{content:"✓"; color:var(--fiolet-jasny); font-weight:700; flex:0 0 auto}
   .lista li b{color:var(--tekst); font-weight:600}
 
-  /* pytania */
-  .pytania{display:grid; grid-template-columns:1fr 1fr; gap:14px 28px; margin-top:32px}
+  .pytania{display:grid; grid-template-columns:1fr 1fr; gap:0 32px; margin-top:44px}
   @media(max-width:820px){.pytania{grid-template-columns:1fr}}
-  .pytanie{padding:16px 0; border-top:1px solid var(--linia)}
-  .pytanie p{color:var(--szary); margin-top:6px; font-size:1rem}
+  .pytanie{padding:18px 0; border-top:1px solid var(--linia)}
+  .pytanie p{color:var(--szary); margin-top:8px; font-size:1.15rem}
 
-  /* koniec */
-  .koniec{text-align:center; border:1px solid var(--linia); border-radius:18px; padding:clamp(32px,6vw,56px);
-    background:radial-gradient(600px 240px at 50% 0,rgba(139,92,246,.18),transparent 70%),var(--karta)}
+  .koniec{position:relative; overflow:hidden; text-align:center; border:1px solid var(--linia2); border-radius:22px;
+    padding:clamp(40px,7vw,72px) 20px;
+    background:radial-gradient(700px 260px at 50% 0,rgba(139,92,246,.28),transparent 70%),var(--karta)}
+  .koniec img{height:clamp(34px,5vw,46px); width:auto; margin:0 auto 22px; display:block}
   .koniec h2{max-width:17em; margin:0 auto}
-  .koniec p{margin:14px auto 0; color:var(--szary); max-width:34em}
-  .koniec .przyciski{justify-content:center}
-  footer{border-top:1px solid var(--linia); padding:30px 0 42px; margin-top:clamp(40px,6vw,72px)}
+  .koniec p{margin:16px auto 0; color:var(--szary); max-width:34em; font-size:1.15rem}
+
+  footer{border-top:1px solid var(--linia); padding:30px 0 42px; margin-top:clamp(56px,8vw,96px)}
   footer .srodek{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
-    color:var(--ciemny-szary); font-size:.92rem}
+    color:var(--ciemny-szary); font-size:1rem}
   footer img{height:20px; width:auto; opacity:.85}
   footer a{color:var(--szary); text-decoration:none}
   footer a:hover{color:var(--tekst)}
@@ -153,98 +142,84 @@
 
 <header class="pasek">
   <div class="srodek">
-    <a href="#gora" aria-label="recol.tech"><img src="img/recol-logo.png" alt="recol.tech"></a>
+    <a class="logo" href="#gora" aria-label="recol.tech"><img src="img/recol-logo.png" alt="recol.tech"></a>
     <nav class="menu">
       <a href="#jak">Jak to działa</a>
       <a href="#dlaczego">Dlaczego działa</a>
       <a href="#cena">Ile kosztuje</a>
+      <a href="#pytania">Pytania</a>
     </nav>
-    <a class="guzik glowny maly" href="sms:+48451597584">Napisz SMS-a</a>
+    <div class="prawo">
+      <a class="guzik fiolet maly" href="tel:+48451597584">Zadzwoń</a>
+      <a class="guzik bialy maly" href="sms:+48451597584">Napisz SMS-a</a>
+    </div>
   </div>
 </header>
 
 <main id="gora">
 
   <section class="poczatek">
-    <div class="srodek">
-      <h1>Odzyskujemy pacjentów,<br>którzy <span>się nie umówili</span></h1>
-      <p class="wstep">Ktoś zapytał o cenę albo termin i zniknął. recol.tech pisze do niego SMS-a
-        w imieniu Waszego gabinetu. Gdy chce się umówić, recepcja po prostu oddzwania.
-        <b>Płacicie tylko za pacjenta, który przyszedł.</b></p>
+    <div class="srodek tresc">
+      <h1 class="tytul"><span>Poznaj</span><img src="img/recol-logo-duze.png" alt="recol.tech" width="1200" height="313"></h1>
+      <p class="wstep">Odzyskujemy pacjentów, którzy <b>pytali o wizytę i się nie umówili</b>.
+        Piszemy do nich SMS-em w imieniu gabinetu, a recepcja dzwoni tylko do chętnych.
+        Płacicie <b>50 zł netto za pacjenta, który przyszedł</b>.</p>
       <div class="przyciski">
-        <a class="guzik glowny" href="#kontakt">Zacznij pilotaż</a>
-        <a class="guzik zwykly" href="#jak">Jak to działa</a>
-      </div>
-      <div class="fakty">
-        <div class="fakt"><b>0 zł</b><span>abonamentu i opłaty na start</span></div>
-        <div class="fakt"><b>50 zł netto</b><span>za pacjenta, który przyszedł na wizytę</span></div>
-        <div class="fakt"><b>15 sekund</b><span>tyle trwa wpisanie numeru przez recepcję</span></div>
+        <a class="guzik bialy" href="sms:+48451597584">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          Napisz SMS-a: 451 597 584</a>
+        <a class="guzik fiolet" href="#jak">Zobacz, jak to działa</a>
       </div>
     </div>
   </section>
 
-  <section id="jak">
+  <section class="blok" id="jak">
     <div class="srodek">
-      <div class="naglowek">
-        <div class="kreska"></div>
-        <h2>Jak to działa</h2>
-        <p>Trzy kroki. Recepcja nie musi uczyć się nowego programu. Piszemy tylko od 9:00 do 19:00.</p>
+      <div class="glowa">
+        <span class="etykieta">Jak to działa</span>
+        <h2>Trzy kroki i jedna karta w przeglądarce</h2>
+        <p>Panel to zwykła strona otwarta w przeglądarce. Niczego nie trzeba instalować ani się uczyć.
+          Recepcja wpisuje numer, a resztą zajmujemy się my.</p>
       </div>
-      <div class="jak">
-        <ol class="kroki">
-          <li class="krok"><span class="nr">1</span><div>
-            <h3>Recepcja wpisuje numer</h3>
-            <p>Imię, telefon i o co pytał pacjent. Panel działa w przeglądarce i na telefonie.</p>
-          </div></li>
-          <li class="krok"><span class="nr">2</span><div>
-            <h3>My piszemy w imieniu gabinetu</h3>
-            <p>Uprzejmy SMS tego samego dnia, a po 3 dniach jedno przypomnienie, tak jak w badaniach.
-              Odpowiadamy na pytania o ceny i godziny, tylko na podstawie Waszego cennika.</p>
-          </div></li>
-          <li class="krok"><span class="nr">3</span><div>
-            <h3>Recepcja dzwoni do chętnych</h3>
-            <p>Na liście są tylko osoby, które same poprosiły o termin. Po wizycie jedno kliknięcie:
-              „Przyszedł”.</p>
-          </div></li>
-        </ol>
-        <div class="rozmowa">
-          <p class="tytul">Tak wygląda to u pacjenta (przykład)</p>
-          <div class="dymek gabinet"><small>Gabinet</small>Dzień dobry, tu Gabinet Dentima. Czy sprawa wybielania
-            zębów jest nadal aktualna? Chętnie pomożemy umówić termin.</div>
-          <div class="dymek pacjent"><small>Pacjentka</small>A ile to kosztuje?</div>
-          <div class="dymek gabinet"><small>Gabinet</small>Wybielanie to od 900 zł, dokładną kwotę ustala lekarz.
-            Czy przekazać prośbę o termin recepcji?</div>
-          <div class="dymek pacjent"><small>Pacjentka</small>Tak, poproszę piątek po 16.</div>
-          <span class="znacznik">Trafia na listę „Do telefonu”</span>
-        </div>
-      </div>
+      <ol class="kroki">
+        <li class="karta"><div class="nr">1</div>
+          <h3>Recepcja wpisuje numer</h3>
+          <p>Imię, telefon i o co pytał pacjent. Kilkanaście sekund w karcie przeglądarki, działa też na telefonie.</p></li>
+        <li class="karta"><div class="nr">2</div>
+          <h3>My piszemy w imieniu gabinetu</h3>
+          <p>Uprzejmy SMS tego samego dnia, a po 3 dniach jedno przypomnienie, tak jak w badaniach.
+            Ceny podajemy tylko z Waszego cennika. Piszemy od 9:00 do 19:00.</p></li>
+        <li class="karta"><div class="nr">3</div>
+          <h3>Recepcja dzwoni do chętnych</h3>
+          <p>Na liście są tylko osoby, które same poprosiły o termin. Po wizycie jedno kliknięcie: „Przyszedł”.</p></li>
+      </ol>
     </div>
   </section>
 
-  <section id="dlaczego">
+  <section class="blok" id="dlaczego">
     <div class="srodek">
-      <div class="naglowek">
-        <div class="kreska"></div>
-        <h2>Dlaczego to działa</h2>
-        <p>Kto pytał o wizytę i się nie umówił, zwykle nie odmówił. Odkłada decyzję albo zapomina.
-          Badania z amerykańskich uczelni pokazują, że krótka wiadomość pomaga mu wrócić.</p>
+      <div class="glowa">
+        <span class="etykieta">Dlaczego to działa</span>
+        <h2>Kto się nie umówił, zwykle nie odmówił</h2>
+        <p>Odkłada decyzję albo zapomina. Badania z amerykańskich uczelni pokazują,
+          że krótka wiadomość pomaga mu wrócić.</p>
       </div>
       <div class="badania">
-        <div class="badanie">
+        <div class="karta badanie">
           <div class="liczba">prawie 2×</div>
           <p>więcej wizyt. Wśród osób bez umówionego terminu przyszło <b>24,1% po wiadomości</b>,
             a tylko 12,7% bez niej.</p>
           <div class="zrodlo">University of Cincinnati, JAMA Network Open, 2022 ·
             <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2798662" rel="noopener">źródło</a></div>
         </div>
-        <div class="badanie">
-          <div class="liczba">690 000</div>
+        <div class="karta badanie">
+          <div class="liczba">680 000</div>
           <p>osób w badaniu. Krótkie SMS-y zwiększyły liczbę tych, które przyszły.
             <b>Najlepiej działały dwie wiadomości w odstępie 3 dni.</b></p>
           <div class="zrodlo">Wharton School, University of Pennsylvania, PNAS, 2022 ·
             <a href="https://bcfg.wharton.upenn.edu/research/a-680000-person-megastudy-of-nudges-to-encourage-vaccination-in-pharmacies/" rel="noopener">źródło</a></div>
         </div>
-        <div class="badanie">
+        <div class="karta badanie">
           <div class="liczba">1–3 dni</div>
           <p>to najlepszy moment na przypomnienie. <b>Działa lepiej niż wiadomość wysłana od razu</b>,
             bo człowiek zdążył się zastanowić, a jeszcze nie zapomniał.</p>
@@ -257,12 +232,11 @@
     </div>
   </section>
 
-  <section id="cena">
+  <section class="blok" id="cena">
     <div class="srodek">
-      <div class="naglowek">
-        <div class="kreska"></div>
-        <h2>Ile to kosztuje</h2>
-        <p>Płacicie za efekt, a nie za wysłane wiadomości.</p>
+      <div class="glowa">
+        <span class="etykieta">Ile to kosztuje</span>
+        <h2>Płacicie za efekt, nie za wiadomości</h2>
       </div>
       <div class="cena">
         <div class="karta mocna">
@@ -273,14 +247,23 @@
         </div>
         <div class="karta">
           <ul class="lista">
-            <li><span><b>Bez abonamentu</b> i bez opłaty na start.</span></li>
+            <li><span><b>30 dni pilotażu bez abonamentu</b> i bez opłaty na start.</span></li>
+            <li><span>Po pilotażu <b>100 zł netto miesięcznie</b> za utrzymanie systemu.</span></li>
             <li><span>Pacjent odpisał, ale nie przyszedł? <b>Nie płacicie.</b></span></li>
-            <li><span>Miesiąc bez żadnej wizyty? <b>Rachunek to 0 zł.</b></span></li>
+            <li><span>Miesiąc bez żadnej wizyty? <b>Płacicie tylko abonament.</b></span></li>
             <li><span>Rozliczenie raz w miesiącu, a listę wizyt widzicie w panelu cały czas.</span></li>
           </ul>
         </div>
       </div>
+    </div>
+  </section>
 
+  <section class="blok" id="pytania">
+    <div class="srodek">
+      <div class="glowa">
+        <span class="etykieta">Pytania</span>
+        <h2>To, o co pytają gabinety</h2>
+      </div>
       <div class="pytania">
         <div class="pytanie">
           <h3>Czy system sam umawia wizyty?</h3>
@@ -292,7 +275,8 @@
         </div>
         <div class="pytanie">
           <h3>Czy pacjent pozna, że to automat?</h3>
-          <p>Wiadomość brzmi jak od recepcji i jest podpisana nazwą gabinetu. Na wprost zadane pytanie odpowiadamy szczerze.</p>
+          <p>Wiadomość brzmi jak od recepcji i jest podpisana nazwą gabinetu. Gdy pacjent zapyta wprost,
+            odpowiadamy zgodnie z prawdą, że to automatyczna wiadomość gabinetu, a recepcję prowadzi człowiek.</p>
         </div>
         <div class="pytanie">
           <h3>Kiedy możemy zacząć?</h3>
@@ -305,12 +289,13 @@
   <section id="kontakt">
     <div class="srodek">
       <div class="koniec">
+        <img src="img/recol-logo-duze.png" alt="recol.tech">
         <h2>Zacznijmy od numerów, które już macie w zeszycie</h2>
         <p>Wystarczy jeden SMS. Ustawimy gabinet i ruszymy z 30-dniowym pilotażem.
-          Zapłacicie dopiero wtedy, gdy ktoś z tych pacjentów przyjdzie.</p>
+          W pilotażu płacicie tylko za pacjentów, którzy przyszli, a potem dochodzi 100 zł abonamentu miesięcznie.</p>
         <div class="przyciski">
-          <a class="guzik glowny" href="sms:+48451597584">Napisz SMS-a: +48 451 597 584</a>
-          <a class="guzik zwykly" href="tel:+48451597584">Albo zadzwoń</a>
+          <a class="guzik bialy" href="sms:+48451597584">Napisz SMS-a: +48 451 597 584</a>
+          <a class="guzik fiolet" href="tel:+48451597584">Albo zadzwoń</a>
         </div>
       </div>
     </div>
